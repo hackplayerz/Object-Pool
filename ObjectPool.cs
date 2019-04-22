@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectPool<T>  where T : MonoBehaviour
@@ -8,6 +8,7 @@ public class ObjectPool<T>  where T : MonoBehaviour
     private readonly List<T> _pools = new List<T>(); // Pool
     private int _count; // Count of created object
     private readonly T _prefab; // To instantiate prefab
+    private Transform _parent;
 
     #endregion
 
@@ -26,6 +27,7 @@ public class ObjectPool<T>  where T : MonoBehaviour
         // Set Parent transform
         if (container != null)
         {
+            _parent = container;
             go.transform.SetParent(container);
         }
         _pools.Add(go); // Push
@@ -44,7 +46,7 @@ public class ObjectPool<T>  where T : MonoBehaviour
             // If all pool object is active
             if (_pools[0].gameObject.activeSelf)
             {
-                InitPool();
+                InitPool(_parent);
             }
             else
             {
@@ -57,3 +59,4 @@ public class ObjectPool<T>  where T : MonoBehaviour
         _count++;
     }
 }
+
